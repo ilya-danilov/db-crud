@@ -30,7 +30,7 @@ Database development, administration and protection, College Sirius, Spring 2024
 
 `CRUD` для продуктов.
 
-### Environment variables
+## Environment variables
 POSTGRES_HOST=<change_me>\
 POSTGRES_PORT=<change_me>\
 POSTGRES_DB=<change_me>\
