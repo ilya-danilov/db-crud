@@ -45,7 +45,7 @@ with products_with_promotions as (
 	    	'end_date', promo.end_date
 	    )) filter (where promo.id is not null), '[]') as promotions
 	from api_data.products prod
-	left join api_data.promotion_to_product pp on prod.id = pp.product_id
+	left join api_data.product_to_promotion pp on prod.id = pp.product_id
 	left join api_data.promotions promo on promo.id = pp.promotion_id
 	group by prod.id
 ),
@@ -138,7 +138,7 @@ def delete_product():
     id = body['id']
 
     deleteProductLinks = SQL(
-        "delete from api_data.promotion_to_product where product_id = {id}").format(
+        "delete from api_data.product_to_promotion where product_id = {id}").format(
             id=Literal(id))
     deleteProduct = SQL("delete from api_data.products where id = {id} returning id").format(
         id=Literal(id))

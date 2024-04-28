@@ -22,7 +22,7 @@ create table if not exists api_data.promotions
     check (start_date <= end_date)
 );
 
-create table if not exists api_data.promotion_to_product
+create table if not exists api_data.product_to_promotion
 (
     product_id uuid references api_data.products,
     promotion_id  uuid references api_data.promotions,
@@ -60,7 +60,7 @@ values
     ('С 22.04.2025 по 29.04.2025 действует скидка 20% на продукты из категории "Молочные продукты"', 20, '2025-04-22', '2025-04-29'),
     ('С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"', 10, '2025-04-30', '2025-05-30');
 
-insert into api_data.promotion_to_product(product_id, promotion_id)
+insert into api_data.product_to_promotion(product_id, promotion_id)
 values
     ((select id from api_data.products where title = 'Пельмени "Мясные подушечки из говядины" 430г. Брест'),
      (select id from api_data.promotions where title = '22.04.2025 действует скидка 50% на "Пельмени "Мясные подушечки из говядины" 430г. Брест"')),
