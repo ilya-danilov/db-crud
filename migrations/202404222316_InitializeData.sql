@@ -17,7 +17,7 @@ create table if not exists api_data.promotions
     id uuid primary key default uuid_generate_v4(),
     title text not null check (length(title) < 400),
     discount_amount int not null check (discount_amount >= 0 and discount_amount <= 100),
-    start_date date not null,
+    start_date date not null check (start_date >= CURRENT_DATE),
     end_date date,
     check (start_date <= end_date)
 );
@@ -54,49 +54,49 @@ values
 
 insert into api_data.promotions(title, discount_amount, start_date, end_date)
 values
-    ('22.04.2024 действует скидка 50% на "Пельмени "Мясные подушечки из говядины" 430г. Брест"', 50, '2024-04-22', '2024-04-22'),
-    ('С 01.05.2024 по 08.05.2024 действует скидка 25% на все твёрдые сыры', 25, '2024-05-01', '2024-05-08'),
-    ('С 01.05.2024 по 15.05.2024 действует скидка 15% на "Сосиски "Вкусные с телятиной" 280г. Брест" и "Сыр плавленый "Минская марка" Классический 100г. Минск"', 15, '2024-05-01', '2024-05-15'),
-    ('С 22.04.2024 по 29.04.2024 действует скидка 20% на продукты из категории "Молочные продукты"', 20, '2024-04-22', '2024-04-29'),
-    ('С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"', 10, '2024-04-30', '2024-05-30');
+    ('22.04.2025 действует скидка 50% на "Пельмени "Мясные подушечки из говядины" 430г. Брест"', 50, '2025-04-22', '2025-04-22'),
+    ('С 01.05.2025 по 08.05.2025 действует скидка 25% на все твёрдые сыры', 25, '2025-05-01', '2025-05-08'),
+    ('С 01.05.2025 по 15.05.2025 действует скидка 15% на "Сосиски "Вкусные с телятиной" 280г. Брест" и "Сыр плавленый "Минская марка" Классический 100г. Минск"', 15, '2025-05-01', '2025-05-15'),
+    ('С 22.04.2025 по 29.04.2025 действует скидка 20% на продукты из категории "Молочные продукты"', 20, '2025-04-22', '2025-04-29'),
+    ('С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"', 10, '2025-04-30', '2025-05-30');
 
 insert into api_data.promotion_to_product(product_id, promotion_id)
 values
     ((select id from api_data.products where title = 'Пельмени "Мясные подушечки из говядины" 430г. Брест'),
-     (select id from api_data.promotions where title = '22.04.2024 действует скидка 50% на "Пельмени "Мясные подушечки из говядины" 430г. Брест"')),
+     (select id from api_data.promotions where title = '22.04.2025 действует скидка 50% на "Пельмени "Мясные подушечки из говядины" 430г. Брест"')),
 
     ((select id from api_data.products where title = 'Сыр "Черный принц" с ароматом топленого молока Кобрин'),
-     (select id from api_data.promotions where title = 'С 01.05.2024 по 08.05.2024 действует скидка 25% на все твёрдые сыры')),
+     (select id from api_data.promotions where title = 'С 01.05.2025 по 08.05.2025 действует скидка 25% на все твёрдые сыры')),
     ((select id from api_data.products where title = 'Сыр "Князь Владимир" с ароматом топленого молока Бабушкина крынка'),
-     (select id from api_data.promotions where title = 'С 01.05.2024 по 08.05.2024 действует скидка 25% на все твёрдые сыры')),
+     (select id from api_data.promotions where title = 'С 01.05.2025 по 08.05.2025 действует скидка 25% на все твёрдые сыры')),
 
     ((select id from api_data.products where title = 'Сосиски "Вкусные с телятиной" 280г. Брест'),
-     (select id from api_data.promotions where title = 'С 01.05.2024 по 15.05.2024 действует скидка 15% на "Сосиски "Вкусные с телятиной" 280г. Брест" и "Сыр плавленый "Минская марка" Классический 100г. Минск"')),
+     (select id from api_data.promotions where title = 'С 01.05.2025 по 15.05.2025 действует скидка 15% на "Сосиски "Вкусные с телятиной" 280г. Брест" и "Сыр плавленый "Минская марка" Классический 100г. Минск"')),
     ((select id from api_data.products where title = 'Сыр плавленый "Минская марка" Классический 100г. Минск'),
-     (select id from api_data.promotions where title = 'С 01.05.2024 по 15.05.2024 действует скидка 15% на "Сосиски "Вкусные с телятиной" 280г. Брест" и "Сыр плавленый "Минская марка" Классический 100г. Минск"')),
+     (select id from api_data.promotions where title = 'С 01.05.2025 по 15.05.2025 действует скидка 15% на "Сосиски "Вкусные с телятиной" 280г. Брест" и "Сыр плавленый "Минская марка" Классический 100г. Минск"')),
 
     ((select id from api_data.products where title = 'Молоко "Минская марка" 3,2% 1л. Тетра-пак'),
-     (select id from api_data.promotions where title = 'С 22.04.2024 по 29.04.2024 действует скидка 20% на продукты из категории "Молочные продукты"')),
+     (select id from api_data.promotions where title = 'С 22.04.2025 по 29.04.2025 действует скидка 20% на продукты из категории "Молочные продукты"')),
     ((select id from api_data.products where title = 'Сметана "Минская марка" 15% 380г. стакан Минск'),
-     (select id from api_data.promotions where title = 'С 22.04.2024 по 29.04.2024 действует скидка 20% на продукты из категории "Молочные продукты"')),
+     (select id from api_data.promotions where title = 'С 22.04.2025 по 29.04.2025 действует скидка 20% на продукты из категории "Молочные продукты"')),
     ((select id from api_data.products where title = 'Творог "Славянские традиции" 5% 180г. Минск'),
-     (select id from api_data.promotions where title = 'С 22.04.2024 по 29.04.2024 действует скидка 20% на продукты из категории "Молочные продукты"')),
+     (select id from api_data.promotions where title = 'С 22.04.2025 по 29.04.2025 действует скидка 20% на продукты из категории "Молочные продукты"')),
     ((select id from api_data.products where title = 'Кефир "Славянские традиции" 3,2% 900г. бутылка Минск'),
-     (select id from api_data.promotions where title = 'С 22.04.2024 по 29.04.2024 действует скидка 20% на продукты из категории "Молочные продукты"')),
+     (select id from api_data.promotions where title = 'С 22.04.2025 по 29.04.2025 действует скидка 20% на продукты из категории "Молочные продукты"')),
 
     ((select id from api_data.products where title = 'Колбаса варено-копченая "Сервелат Финский" Брест'),
-     (select id from api_data.promotions where title = 'С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
+     (select id from api_data.promotions where title = 'С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
     ((select id from api_data.products where title = 'Колбаса сырокопчёная оригинальная "Мясной дуэт" Гродно'),
-     (select id from api_data.promotions where title = 'С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
+     (select id from api_data.promotions where title = 'С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
     ((select id from api_data.products where title = 'Сосиски "Вкусные с телятиной" 280г. Брест'),
-     (select id from api_data.promotions where title = 'С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
+     (select id from api_data.promotions where title = 'С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
     ((select id from api_data.products where title = 'Буженина "Боярская" запеченная свиная Белорусские рецепты'),
-     (select id from api_data.promotions where title = 'С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
+     (select id from api_data.promotions where title = 'С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
     ((select id from api_data.products where title = 'Сыр "Черный принц" с ароматом топленого молока Кобрин'),
-     (select id from api_data.promotions where title = 'С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
+     (select id from api_data.promotions where title = 'С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
     ((select id from api_data.products where title = 'Сыр "Князь Владимир" с ароматом топленого молока Бабушкина крынка'),
-     (select id from api_data.promotions where title = 'С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
+     (select id from api_data.promotions where title = 'С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"')),
     ((select id from api_data.products where title = 'Сыр плавленый "Минская марка" Классический 100г. Минск'),
-     (select id from api_data.promotions where title = 'С 30.04.2024 по 30.05.2024 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"'));
+     (select id from api_data.promotions where title = 'С 30.04.2025 по 30.05.2025 действует скидка 10% на продукты из категорий "Мясные изделия" и "Сыры"'));
 
 -- migrate:down
