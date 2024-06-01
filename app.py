@@ -13,11 +13,11 @@ app = Flask(__name__)
 app.json.ensure_ascii = False
 
 connection = psycopg2.connect(
-    host=os.getenv('POSTGRES_HOST') if os.getenv('DEBUG_MODE') == 'false' else 'localhost',
-    port=os.getenv('POSTGRES_PORT'),
-    database=os.getenv('POSTGRES_DB'),
-    user=os.getenv('POSTGRES_USER'),
-    password=os.getenv('POSTGRES_PASSWORD'),
+    host=os.getenv('PG_HOST') if os.getenv('DEBUG_MODE') == 'false' else 'localhost',
+    port=os.getenv('PG_PORT'),
+    database=os.getenv('PG_DBNAME'),
+    user=os.getenv('PG_USER'),
+    password=os.getenv('PG_PASSWORD'),
     cursor_factory=RealDictCursor
 )
 connection.autocommit = True
@@ -152,6 +152,41 @@ def delete_product():
         return '', 404
 
     return '', 204
+
+
+@app.get('/products/find_by_title')
+def get_product_by_title():
+    title = request.args.get('title')
+
+    query = SQL("""
+select id, title, price, category
+from api_data.products
+where title ilike {title}
+""").format(title=Literal('%' + title + '%'))
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+
+    return result
+
+
+@app.get('/products/find_by_category')
+def get_product_by_category():
+    category = request.args.get('category')
+
+    query = SQL("""
+select id, title, price, category
+from api_data.products
+where category = {category}
+""").format(category=Literal(category))
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+
+    return result
+
 
 if __name__ == '__main__':
     app.run(port=os.getenv('FLASK_PORT'))

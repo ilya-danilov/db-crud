@@ -7,7 +7,7 @@ create schema if not exists api_data;
 create table if not exists api_data.products
 (
     id uuid primary key default uuid_generate_v4(),
-    title text unique not null check (length(title) < 100),
+    title text not null check (length(title) < 100),
     price decimal(7, 2) not null check (price > 0),
     category text not null check (length(category) < 50)
 );
@@ -15,7 +15,7 @@ create table if not exists api_data.products
 create table if not exists api_data.promotions
 (
     id uuid primary key default uuid_generate_v4(),
-    title text unique not null check (length(title) < 400),
+    title text not null check (length(title) < 400),
     discount_amount int not null check (discount_amount >= 0 and discount_amount <= 100),
     start_date date not null check (start_date >= CURRENT_DATE),
     end_date date,
